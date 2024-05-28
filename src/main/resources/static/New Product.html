@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Product</title>
+    <!-- BootStrap -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+
+    <!-- tag -->
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
+    <style>
+        .center
+        {
+            display: flex;
+        }
+        .top
+        {
+            margin-top: 30px;
+        }
+        .category
+        {
+            margin-top: 15px;
+            width: 100%;
+            border-top: 1px solid #f1f3f5;
+            padding-top: 15px;
+        }
+        .lastcategory
+        {
+            margin-top: 15px;
+            width: 100%;
+            border-top: 1px solid #f1f3f5;
+            border-bottom: 1px solid #f1f3f5;
+            padding-top: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+        }
+        .text1
+        {
+            width: 100%;
+            border: none;
+            resize: none;
+            background-color:transparent;
+        }
+        input:focus
+        {
+            outline: none;
+
+        }
+
+        /* 파일 입력 요소를 숨김 */
+        #fileInput {
+            display: none;
+        }
+        /* 미리보기 이미지 및 파일명 컨테이너 스타일 */
+        .fileItem {
+            position: relative;
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 10px;
+            text-align: center;
+        }
+        .preview {
+            display: block;
+            width: 100px;
+            height: auto;
+        }
+        .deleteButton {
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            color: #f72f2f;
+
+        }
+        .fileName {
+            display: block;
+            width: 100px; /* 이름 너비 제한 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+        }
+        #fileInfo {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        #counter {
+            margin-top: 10px;
+        }
+
+        .pl{
+            width: 200px;
+            border: 1px solid #C4C4C4;
+            box-sizing: border-box;
+            border-radius: 10px;
+            padding: 12px 13px;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+        }
+
+        .pl:focus{
+
+            box-sizing: border-box;
+            border-radius: 10px;
+
+            border-radius: 10px;
+        }
+        .textarea1
+        {
+            width: 100%;
+            min-height: 200px;
+            height: auto;
+            border: none;
+            resize: none;
+            background-color:transparent;
+
+        }
+        textarea:focus
+        {
+            outline: none;
+        }
+        .tagify__input {
+            min-width: 170px;
+        }
+        .iconhome
+        {
+            width: 50px;
+            height: 50px;
+            background-color: #f1f3f5;
+            border-radius: 5px;
+            margin-top: 25px;
+            font-size: 12px;
+        }
+        .icon
+        {
+            width: 45px;
+            height: 45px;
+            margin: 3px;
+        }
+        #plus1
+        {
+            margin-bottom: 50px;
+            margin-right: 15px;
+        }
+        .h5
+        {
+            margin-top: 25px;
+        }
+        h6
+        {
+            margin-bottom: 15px;
+        }
+        .text2
+        {
+            width: 90px;
+            border: 1px;
+            text-align: right;
+            border-bottom: 1px solid gray;
+        }
+        .btngroup
+        {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        #btn1
+        {
+            width: 100px;
+            height: 50px;
+            background-color: #f72f2f;
+            color: white;
+        }
+        #btn2
+        {
+            width: 100px;
+            height: 50px;
+            background-color: #f1f3f5;
+
+        }
+
+
+    </style>
+
+    <script>
+        $(document).ready(function() {
+
+            var i=2; // 변수설정은 함수의 바깥에 설정!
+
+            $("#plus1").click(function() {
+                var optionHtml = "<div class='optionGroup'>"
+                    +"<h5 class='h5'> 옵션"+i+" </h5>"
+                    +"<div class='category' id='option1'>"
+                    +"<h6>옵션</h6>"
+                    +"<input class='text1' type='text' name='option"+i+"' placeholder='사이즈 or 모델명을 입력해주세요'></div>"
+                    +"<div class='category' id='option2'>"
+                    +"<h6>재고 수량</h6>"
+                    +"<input class='text1' type='text' name='stock"+i+"' placeholder='재고 수량을 입력해주세요'></div>"
+                    +"<div class='lastcategory' id='option3'>"
+                    +"<h6>가격</h6>"
+                    +"<div style='display:flex;'>"
+                    +"<input class='text2'  type='text' name='price"+i+"' id='price"+i+"' value='0'>"
+                    +"<span class='won'>원</span></div>"
+                    +"</div>"
+                    +"</div>";
+
+                $("#option").append(optionHtml);
+
+                const inp = document.querySelector('#price'+i);
+
+                inp.addEventListener('click', function(e) {
+                    // 포커스가 되면 커서를 "0" 뒤로 이동
+                    inp.setSelectionRange(10, 10);
+                });
+
+                inp.addEventListener('input', function(e) {
+
+                    let value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 추출
+
+                    // 1억 이상의 숫자는 999,999,999로 제한
+                    value = Math.min(Number(value), 999999999);
+
+                    // 천 단위 쉼표가 추가된 문자열로 변환 후 입력 필드에 표시
+                    e.target.value = value.toLocaleString('ko-KR');
+                });
+
+                i++; // 함수 내 하단에 증가문 설정
+            });
+
+            // 묶음을 클릭했을 때 해당 묶음을 삭제하는 기능 추가
+            $(document).on("click", "#del1", function() {
+                if (i==2)
+                {
+                    alert("1개 이상의 옵션을 입력해야합니다");
+                }
+                else
+                {
+                    $('.optionGroup').last().remove();
+                    i--;
+                }
+            });
+
+
+            /*-------------------------------------------------------------------------------------*/
+            // 파일업로드
+
+            var maxFiles = 5;
+            var filesArray = [];
+
+            function updateCounter() {
+                $('#counter').text('(' + filesArray.length + '/' + maxFiles + ')');
+            }
+
+            // 이미지 버튼 클릭 시 파일 입력 요소 클릭
+            $('#img').click(function(e) {
+                e.preventDefault();  // 기본 클릭 동작 방지
+                if (filesArray.length < maxFiles) {
+                    $('#fileInput').click();  // 파일 입력 요소 클릭
+                } else {
+                    alert('최대 ' + maxFiles + '개의 파일만 업로드할 수 있습니다.');
+                }
+            });
+
+            // 파일 입력 요소의 변경 이벤트 처리
+            $('#fileInput').change(function() {
+                var newFiles = Array.from(this.files);
+
+                if (filesArray.length + newFiles.length > maxFiles) {
+                    alert('최대 ' + maxFiles + '개의 파일만 업로드할 수 있습니다.');
+                    return;
+                }
+
+                newFiles.forEach(file => {
+                    if (file) {
+                        filesArray.push(file);
+
+                        // 파일명과 미리보기를 포함하는 div 요소 생성
+                        var fileItemDiv = $('<div class="fileItem"></div>');
+
+                        // 삭제 버튼 추가
+                        var deleteButton = $('<input type="image" class="deleteButton" src="/resources/image/cancel.png">');/*여기 사진으로 바꾸기*/
+                        deleteButton.click(function() {
+                            var index = fileItemDiv.index();
+                            filesArray.splice(index, 1);
+                            fileItemDiv.remove();
+                            updateCounter();
+                        });
+
+                        // 파일명 표시
+                        var fileNameDiv = $('<div class="fileName"></div>').text(file.name);
+
+                        // 미리보기 이미지 표시
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            var img = $('<img class="preview">').attr('src', e.target.result);
+                            fileItemDiv.append(deleteButton).append(img).append(fileNameDiv);
+                            $('#fileInfo').append(fileItemDiv);
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // 카운터 업데이트
+                updateCounter();
+
+                // 선택된 파일 초기화
+                $('#fileInput').val('');
+            });
+
+            // 초기 카운터 업데이트
+            updateCounter();
+
+
+
+            /*-----------------------------------------------------------------*/
+            // 태그
+            const inpu = document.querySelector('input[name=basic]');
+            let tagify = new Tagify(inpu, {
+                delimiters: ", ", // 태그 구분자 설정
+                dropdown: {
+                    enabled: 0, // 태그 입력시 드롭다운 사용 여부 설정
+                }
+            });
+
+            // 리스트 자료 구조
+            var arraylist;
+
+
+            // 태그가 추가되면 이벤트 발생
+            tagify.on('add', function() {
+                console.log(tagify.value); // 입력된 태그 정보 객체
+
+            })
+
+
+
+        });
+
+
+    </script>
+</head>
+<body>
+<div class="center">
+    <div class="col-2">
+        왼쪽
+    </div>
+    <div class="col-8">
+        <h3 class="top">상품정보</h3>
+        <div class="iconhome" id="img">
+            <input class="icon" type="image" src="/resources/image/camera.png">
+        </div>
+        <div id="counter">(0/5)</div>
+        <input type="file" id="fileInput" name="fileInput" accept="image/*" multiple>
+        <div id="fileInfo"></div>
+
+
+        <div class="category">
+            <input class="text1" type="text" placeholder="제목을 입력해주세요">
+        </div>
+        <div class="category">
+            <select name="likeLanguage" id="" class="pl">
+                <option value="0" selected>카테고리</option>
+                <option value="cloth">의류</option>
+                <option value="digital">디지털</option>
+                <option value="books">도서</option>
+                <option value="food">식품</option>
+            </select>
+        </div>
+        <div class="category">
+            <textarea class="textarea1" placeholder="브랜드, 모델명등 상품 설명을 최대한 자세히 적어주세요"></textarea>
+        </div>
+        <div class="tag category">
+            <h5 style="margin-bottom: 15px;">태그(선택 사항)</h5>
+            <div>
+                <input id="basic" name='basic' placeholder="태그를 입력해주세요">
+
+            </div>
+        </div>
+
+        <h3 class="category">옵션</h3>
+        <div id="option">
+            <h5 class="h5">옵션 1</h5>
+            <div class="category" id="option1">
+                <h6>옵션</h6>
+                <input class="text1" type="text" name="option1" placeholder="사이즈 or 모델명을 입력해주세요">
+                <!-- 디폴트값? 있어야하는가.. 선택해야할지 생각 -->
+            </div>
+            <div class="category" id="option2">
+                <h6>재고 수량</h6>
+                <input class="text1" type="text" name="stock1" placeholder="재고 수량을 입력해주세요">
+                <!-- 수량 +하면 올라가게 - 1개 +  <-- 이런느낌   -->
+            </div>
+            <div class="lastcategory" id="option3">
+                <h6>가격</h6>
+                <div style="display:flex;">
+                    <input class="text2"  type="text" name="price1" id="price1" value="0">
+                    <span class="won">원</span>
+                </div>
+                <script>
+                    const inp = document.querySelector('#price1');
+
+                    inp.addEventListener('click', function(e) {
+                        // 포커스가 되면 커서를 "0" 뒤로 이동
+                        inp.setSelectionRange(10, 10);
+                    });
+
+                    inp.addEventListener('input', function(e) {
+
+                        let value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 추출
+
+                        // 1억 이상의 숫자는 999,999,999로 제한
+                        value = Math.min(Number(value), 999999999);
+
+                        // 천 단위 쉼표가 추가된 문자열로 변환 후 입력 필드에 표시
+                        e.target.value = value.toLocaleString('ko-KR');
+                    });
+
+                </script>
+            </div>
+
+        </div>
+        <div style="display: flex;">
+            <div class="iconhome" id="plus1">
+                <input class="icon" id="plus2" type="image" src="/resources/image/add.png">
+                옵션추가
+            </div>
+            <div class="iconhome" id="del1">
+                <input class="icon" id="del2" type="image" src="/resources/image/minus.png">
+                옵션삭제
+            </div>
+        </div>
+
+
+
+        <div class="btngroup">
+            <input type="button" class="btn" id="btn1" value="완료">
+            <input type="button" class="btn" id="btn2" value="취소">
+        </div>
+
+
+
+
+
+    </div>
+    <div class="col-2">
+        오른쪽
+    </div>
+</div>
+</body>
+</html>
