@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">쇼핑몰</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">홈</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">나의쇼핑몰</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2>내 프로필</h2>
+        <p>이름: 홍길동</p>
+        <p>이메일: honggildong@example.com</p>
+        <button class="btn btn-outline-primary">프로필 수정</button>
+    </div>
+
+    <div class="card">
+        <h2>주문 내역</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>주문 번호</th>
+                <th>상품 이름</th>
+                <th>수량</th>
+                <th>가격</th>
+                <th>상태</th>
+                <th>리뷰 작성</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>123456</td>
+                <td>춘식이 인형</td>
+                <td>2</td>
+                <td>₩40,000</td>
+                <td>배송 완료</td>
+                <td><button class="btn btn-outline-secondary" data-toggle="modal" data-target="#reviewModal" onclick="setProductName('춘식이 인형')">리뷰 작성</button></td>
+            </tr>
+            <tr>
+                <td>789012</td>
+                <td>춘식이 인형</td>
+                <td>1</td>
+                <td>₩20,000</td>
+                <td>배송 중</td>
+                <td><button class="btn btn-outline-secondary" data-toggle="modal" data-target="#reviewModal" onclick="setProductName('춘식이 인형')">리뷰 작성</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>배송지 변경</h2>
+        <form id="addressForm">
+            <div class="form-group">
+                <label for="address">새 배송지</label>
+                <input type="text" class="form-control" id="address" placeholder="새 배송지를 입력하세요">
+            </div>
+            <button type="submit" class="btn btn-primary">변경하기</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>비밀번호 변경</h2>
+        <form id="passwordForm">
+            <div class="form-group">
+                <label for="currentPassword">현재 비밀번호</label>
+                <input type="password" class="form-control" id="currentPassword" placeholder="현재 비밀번호를 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="newPassword">새 비밀번호</label>
+                <input type="password" class="form-control" id="newPassword" placeholder="새 비밀번호를 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">새 비밀번호 확인</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="새 비밀번호를 다시 입력하세요">
+            </div>
+            <button type="submit" class="btn btn-primary">변경하기</button>
+        </form>
+    </div>
+</div>
+
+<!-- 리뷰 작성 모달 -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">리뷰 작성</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label for="productName">상품 이름</label>
+                        <input type="text" class="form-control" id="productName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewText">리뷰 내용</label>
+                        <textarea class="form-control" id="reviewText" rows="3" placeholder="리뷰 내용을 입력하세요"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewRating">평점</label>
+                        <select class="form-control" id="reviewRating">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">리뷰 제출</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 쇼핑몰</p>
+</footer>
+
+<script>
+    function setProductName(name) {
+        $('#productName').val(name);
+    }
+
+    $(document).ready(function() {
+        $('#reviewForm').submit(function(event) {
+            event.preventDefault();
+            var productName = $('#productName').val();
+            var reviewText = $('#reviewText').val();
+            var reviewRating = $('#reviewRating').val();
+            alert('리뷰가 제출되었습니다!\n상품 이름: ' + productName + '\n리뷰 내용: ' + reviewText + '\n평점: ' + reviewRating);
+            $('#reviewModal').modal('hide');
+        });
+
+        $('#addressForm').submit(function(event) {
+            event.preventDefault();
+            var address = $('#address').val();
+            alert('배송지가 변경되었습니다!\n새 배송지: ' + address);
+        });
+
+        $('#passwordForm').submit(function(event) {
+            event.preventDefault();
+            var currentPassword = $('#currentPassword').val();
+            var newPassword = $('#newPassword').val();
+            var confirmPassword = $('#confirmPassword').val();
+            if (newPassword !== confirmPassword) {
+                alert('새 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+            alert('비밀번호가 변경되었습니다!');
+        });
+    });
+</script>
+</body>
+</html>
